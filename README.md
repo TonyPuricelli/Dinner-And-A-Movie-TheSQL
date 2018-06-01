@@ -5,7 +5,7 @@ A dinner and movie application with Node.js/Express/MySQL/Handlebars/Bootstrap
 
 The application demonstrates a simple full stack application with a front end implemented with HTML/CSS and elements from the Bootstrap framework and the backend implemented with Node.js and Express. HTML templating is implemented with the help of Handlebars.
 
-The user may enter a zipcode, date,  to populate 
+The user may enter a zipcode, date, movie genre, and restaurant type to populate movie and restaurant recommendations within a certain radius.
 
 ## Demo
 
