@@ -5,8 +5,8 @@ USE user_db;
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
-  moviedinner_date  VARCHAR(20) NULL,
-  zipcode INT NULL,
+  moviedinner_date  VARCHAR(20) NOT NULL,
+  zipcode INT NOT NULL,
   PRIMARY KEY (id)
 );
 

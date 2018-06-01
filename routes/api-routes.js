@@ -9,13 +9,13 @@ var db = require("../models");
 module.exports = function(app) {
 
   // GET route for getting all of the user data
-  app.get("/api/users/", function(req, res) {
-    console.log("API call to get All user data");
-    db.User.findAll({})
-      .then(function(dbUser) {
-        res.json(dbUser);
-      });
-  });
+  // app.get("/api/users", function(req, res) {
+  //   console.log("API call to get All user data");
+  //   db.User.findAll({})
+  //     .then(function(dbUser) {
+  //       res.json(dbUser);
+  //     });
+  // });
 
   // Get route for returning posts of a specific category
   // app.get("/api/posts/category/:category", function(req, res) {
@@ -30,22 +30,22 @@ module.exports = function(app) {
   // });
 
   // Get route for retrieving a single user ID
-  app.get("/api/users/:id", function(req, res) {
-    db.Post.findOne({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(function(dbPost) {
-        res.json(dbPost);
-      });
-  });
+  // app.get("/api/users/:id", function(req, res) {
+  //   db.Post.findOne({
+  //     where: {
+  //       id: req.params.id
+  //     }
+  //   })
+  //     .then(function(dbPost) {
+  //       res.json(dbPost);
+  //     });
+  // });
 
   // POST route for saving a new post
   app.post("/api/users", function(req, res) {
     console.log(req.body);
-    db.Post.create({
-      moviedinner_date: req.body.date,
+    db.users.create({
+      moviedinner_date: req.body.moviedinner_date,
       zipcode: req.body.zipcode,
     })
       .then(function(dbUser) {

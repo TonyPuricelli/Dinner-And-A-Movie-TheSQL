@@ -4,17 +4,17 @@ var movieData;
 // ***************************
 
 // Initialize Firebase
-var config = {
-    apiKey: "AIzaSyA7G2xyyMsQpQ22H3YEq7Nv5MVuiGamad8",
-    authDomain: "dinner-and-a-movie-200002.firebaseapp.com",
-    databaseURL: "https://dinner-and-a-movie-200002.firebaseio.com",
-    projectId: "dinner-and-a-movie-200002",
-    storageBucket: "",
-    messagingSenderId: "814272938765"
-};
-firebase.initializeApp(config);
+// var config = {
+//     apiKey: "AIzaSyA7G2xyyMsQpQ22H3YEq7Nv5MVuiGamad8",
+//     authDomain: "dinner-and-a-movie-200002.firebaseapp.com",
+//     databaseURL: "https://dinner-and-a-movie-200002.firebaseio.com",
+//     projectId: "dinner-and-a-movie-200002",
+//     storageBucket: "",
+//     messagingSenderId: "814272938765"
+// };
+// firebase.initializeApp(config);
 
-var database = firebase.database();
+// var database = firebase.database();
 
 // ****** LOCAL STORAGE ******** 
 function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
@@ -35,11 +35,11 @@ function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
     };
 
     // Uploads movie & dinner data to the database
-    database.ref().push(movieDinner);
+    //database.ref().push(movieDinner);
 
     // Logs everything to console
-    console.log("Firebase Push date: " + movieDinner.date);
-    console.log("Firebase Push ZipeCode: " + movieDinner.zipCode);
+    //console.log("Firebase Push date: " + movieDinner.date);
+    //console.log("Firebase Push ZipeCode: " + movieDinner.zipCode);
     // Added info to Firebase
     console.log("Dinner & Movie Info successfully added");
 };
@@ -103,6 +103,33 @@ function submitUserInfo() {
             var queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
             console.log(queryURL);
 
+            var newUser = {
+                moviedinner_date: userDate,
+                zipcode: userZipCode
+            }
+
+            console.log("Here is the new user data: ", newUser);
+
+            //Make an AJAX call to our users database to post the movieDate and zipCode
+            $.ajax("/api/users", {
+                type: "POST",
+                data: newUser
+            }).then(function (){
+                console.log("New user added.");
+            });
+
+
+            // function insertUser(userData) {
+            //     $.post("/api/users", userData)
+            //         .then(console.log("New user added 2."));
+            // }
+
+            // // Calling the upsertAuthor function and passing in the value of the name input
+            // insertUser({
+            //     moviedinner_date: userDate,
+            //     zipcode: userZipCode
+            // });
+
             // Make an AJAX call to the movie API to get data back
             $.ajax({
                 url: queryURL,
@@ -123,11 +150,7 @@ function submitUserInfo() {
                     // Create a DIV to hold each of our movie titles and its description
                     var movieDisplayDiv = $("<div>").addClass("movieDIV").addClass("card").attr("style", "width: 16rem");
 
-<<<<<<< HEAD
-                    var cardIMG = $("<img>").addClass("card-img-top").attr("src", "../dinner-and-a-movie/assets/css/popcorn.jpg");
-=======
-                    var cardIMG = $("<img>").addClass("card-img-top").attr("src", "/../images/popcorn.jpg");
->>>>>>> 847ae16997ce7bc873f0490c3a05818785b026bf
+                    var cardIMG = $("<img>").addClass("card-img-top").attr("src", "../public/images/popcorn.jpg");
 
                     // Create a variable to hold each movie title
                     var movieTitle = [];
