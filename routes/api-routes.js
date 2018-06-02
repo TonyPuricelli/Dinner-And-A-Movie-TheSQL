@@ -66,12 +66,14 @@ module.exports = function (app) {
       });
   });
 
-  app.post("/api/dinner", function (req, res) {
+  app.get("/api/dinner", function (req, res) {
+    console.log("ZIP CODE: ",req.body.zipcode);
     // API Search Parameters Documentation: https:/ / www.yelp.com / developers / documentation / v3 / business_search
     const searchRequest = {
       term: 'restaurants', //always include this to focus only on restaurants
       categories: 'italian', //take in user inputs about the types of cuisines they want based on this list of categories: https://www.yelp.com/developers/documentation/v3/category_list?hl=en_US 
       location: '60616', //can be address, neighborhood, city, state or zip
+      // location: req.body.zipcode,
       radius: 1610, //a mile in meters; can search up to 25 miles
       //sort_by: distance, //by default its best_match
       limit: 3 //limit number of search results

@@ -118,6 +118,13 @@ function submitUserInfo() {
                 console.log("New user added.");
             });
 
+            $.ajax("/api/dinner", {
+                type: "GET",
+                data: newUser
+            }).then(function (response){
+                console.log("YELP Returned Restarurant Data.");
+            });
+
 
             // function insertUser(userData) {
             //     $.post("/api/users", userData)
