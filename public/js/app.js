@@ -75,7 +75,7 @@ function submitUserInfo() {
             $("#zipCode").val("");
 
             // Create variables to hold the information needed to submit the API call
-            var apiKey = 'gkd947dfsy5spd8zcruwcwa6';
+            var apiKey = 'bdz8ugfm9xze9x33zqwf3zxt';
             var movieDate = userDate;
             var zipCode = userZipCode;
             var queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
