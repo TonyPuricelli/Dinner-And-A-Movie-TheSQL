@@ -10,12 +10,12 @@ const yelp = require('yelp-fusion');
 
 // Place holder for Yelp Fusion's API Key. Grab them
 // from https://www.yelp.com/developers/v3/manage_app
-const apiKey = '-rrTlTD5QkbxgYmvXexahskH_Iz7-0seC01qaSRXU2sCsUwp-umWyv3GbBVV0w5bNDyj7sw7-FamGxxD4KKHv-LNGdfjDxy0Lu11tXu2rd4sCqlenJ7h0wVd36-_WnYx';
+//const yelpApiKey = process.env.YELP_API_KEY;
 
 
 //Specific information we want to get out of the searchRequest results
 
-const client = yelp.client(apiKey);
+//const client = yelp.client(yelpApiKey);
 // ============================
 // Routes
 // =============================================================
@@ -66,13 +66,35 @@ module.exports = function (app) {
       });
   });
 
+  app.get("/api/movie", function (req, res) {
+    let zipCode = req.query.zipcode;
+    console.log("ZIP CODE FROM MOVIE ROUTE: ", req.query.zipcode)
+    let movieDate = req.query.moviedinner_date;
+    console.log("DATE FROM MOVIE ROUTE: ", req.query.moviedinner_date);
+    let apiKey = process.env.GRACENOTE_API;
+    let queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
+    console.log("HERE IS THE QUERY URL: ", queryURL);
+  });
+
+
+  //Route to call the Yelp API to retrieve dinner information
+
   app.get("/api/dinner", function (req, res) {
-    console.log("ZIP CODE: ",req.body.zipcode);
+    console.log("ZIP CODE: ",req.query.zipcode);
+
+    let zipCode = req.query.zipcode;
+
+    const yelpApiKey = process.env.YELP_API_KEY;
+
+    //Specific information we want to get out of the searchRequest results
+
+    const client = yelp.client(yelpApiKey);
+
     // API Search Parameters Documentation: https:/ / www.yelp.com / developers / documentation / v3 / business_search
     const searchRequest = {
       term: 'restaurants', //always include this to focus only on restaurants
       categories: 'italian', //take in user inputs about the types of cuisines they want based on this list of categories: https://www.yelp.com/developers/documentation/v3/category_list?hl=en_US 
-      location: '60616', //can be address, neighborhood, city, state or zip
+      location: zipCode, //can be address, neighborhood, city, state or zip
       // location: req.body.zipcode,
       radius: 1610, //a mile in meters; can search up to 25 miles
       //sort_by: distance, //by default its best_match
