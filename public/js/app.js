@@ -111,7 +111,6 @@ function submitUserInfo() {
             }).then(function (response){
                 console.log("YELP Returned Restaurant Data.");
                 console.log(response);
-                //Then we loop through the response and put all of the response data into HTML format to display on the page
 
             });
 
