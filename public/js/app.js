@@ -3,19 +3,6 @@
 var movieData;
 // ***************************
 
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyA7G2xyyMsQpQ22H3YEq7Nv5MVuiGamad8",
-//     authDomain: "dinner-and-a-movie-200002.firebaseapp.com",
-//     databaseURL: "https://dinner-and-a-movie-200002.firebaseio.com",
-//     projectId: "dinner-and-a-movie-200002",
-//     storageBucket: "",
-//     messagingSenderId: "814272938765"
-// };
-// firebase.initializeApp(config);
-
-// var database = firebase.database();
-
 // ****** LOCAL STORAGE ******** 
 function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
     // Clear absolutely everything stored in localStorage using localStorage.clear()
@@ -33,15 +20,6 @@ function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
         theater: theaterName,
         time: movieTime,
     };
-
-    // Uploads movie & dinner data to the database
-    //database.ref().push(movieDinner);
-
-    // Logs everything to console
-    //console.log("Firebase Push date: " + movieDinner.date);
-    //console.log("Firebase Push ZipeCode: " + movieDinner.zipCode);
-    // Added info to Firebase
-    console.log("Dinner & Movie Info successfully added");
 };
 // **** END OF LOCAL STORAGE CODE ***********
 
@@ -79,7 +57,8 @@ function submitUserInfo() {
     $("#submitButton").on("click", function () {
         event.preventDefault();
 
-        var userDate = $("#movieDate").val();
+        var userEnteredDate = $("#movieDate").val();
+        var userDate = moment(userEnteredDate).format("YYYY-MM-DD");
         var userZipCode = $("#zipCode").val();
         var movieTitle = "";
         var theaterName = "";
@@ -96,8 +75,7 @@ function submitUserInfo() {
             $("#zipCode").val("");
 
             // Create variables to hold the information needed to submit the API call
-            var apiKey = "gkd947dfsy5spd8zcruwcwa6";
-            //var apiKey = "bdz8ugfm9xze9x33zqwf3zxt";
+            var apiKey = 'gkd947dfsy5spd8zcruwcwa6';
             var movieDate = userDate;
             var zipCode = userZipCode;
             var queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
@@ -118,27 +96,23 @@ function submitUserInfo() {
                 console.log("New user added.");
             });
 
+            //Need to figure out how to port over the Gracenote API call to Node in the API route and hide the API key
+            $.ajax("/api/movie", {
+                type: "GET",
+                data: newUser
+            }).then(function (response){
+                console.log("New user added.");
+                console.log(response);
+            });
+
             $.ajax("/api/dinner", {
                 type: "GET",
                 data: newUser
             }).then(function (response){
-                //const prettyJson = JSON.stringify(firstResult, null, 4);
-                //console.log(prettyJson);
+                console.log("YELP Returned Restaurant Data.");
                 console.log(response);
-                console.log("YELP Returned Restarurant Data.");
+
             });
-
-
-            // function insertUser(userData) {
-            //     $.post("/api/users", userData)
-            //         .then(console.log("New user added 2."));
-            // }
-
-            // // Calling the upsertAuthor function and passing in the value of the name input
-            // insertUser({
-            //     moviedinner_date: userDate,
-            //     zipcode: userZipCode
-            // });
 
             // Make an AJAX call to the movie API to get data back
             $.ajax({
