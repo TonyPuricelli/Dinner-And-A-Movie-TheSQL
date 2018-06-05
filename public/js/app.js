@@ -122,6 +122,9 @@ function submitUserInfo() {
                 type: "GET",
                 data: newUser
             }).then(function (response){
+                //const prettyJson = JSON.stringify(firstResult, null, 4);
+                //console.log(prettyJson);
+                console.log(response);
                 console.log("YELP Returned Restarurant Data.");
             });
 
