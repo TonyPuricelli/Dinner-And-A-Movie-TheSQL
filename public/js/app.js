@@ -79,7 +79,8 @@ function submitUserInfo() {
     $("#submitButton").on("click", function () {
         event.preventDefault();
 
-        var userDate = $("#movieDate").val();
+        var userEnteredDate = $("#movieDate").val();
+        var userDate = moment(userEnteredDate).format("YYYY-MM-DD");
         var userZipCode = $("#zipCode").val();
         var movieTitle = "";
         var theaterName = "";
