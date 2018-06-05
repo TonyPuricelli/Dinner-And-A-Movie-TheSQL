@@ -15,7 +15,7 @@ body {
 } */
 
 .logo {
-    width: 10%;
+    width: 100px;
     height: auto;
 }
 /* .jumbotron {
@@ -138,3 +138,7 @@ a:link {
 .input {
     color:orange;
 }  
+
+.opacity {
+    opacity: 0.3;
+}

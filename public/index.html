@@ -11,7 +11,6 @@
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection" />
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- <link href="https://fonts.googleapis.com/css?family=Patua+One|Lato|Oswald" rel="stylesheet"> -->
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
@@ -52,21 +51,15 @@
             <h5 class="header col s12 light">Want to catch a movie and find a restaurant nearby to grab dinner? We can help!</h5>
           </div>
       </div>
-      <!-- <div class="row center">
-          <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-        </div> -->
       <br>
       <br>
   </div>
   <div class="parallax">
-      <img src="./images/dinnermovie.jpg" alt="Unsplashed background img 1"></div>
+      <img src="./images/dinnermovie.jpg" alt="Dinner and a Movie"></div>
   </div>
-
 
   <div class="container">
     <div class="section">
-
-      <!--   Icon Section   -->
       <div class="row">
         <div class="col s12 m12">
           <div class="icon-block">
@@ -74,10 +67,9 @@
               <i class="material-icons">local_dining</i>
             </h2>
             <form class="container userForm" id="validateForm">
-                <!-- <div class="form-group"> -->
                 <label for="movieDate">What day do you want to see a movie?</label>
                 <!-- <input type="date" class="form-control" id="movieDate" required> -->
-                <input type="text" class="validate datepicker" id="movieDate" required>
+                <input type="text" class="validate datepicker" id="movieDate" placeholder="MM/DD/YYYY" required>
                 <div id="errorTextDate"></div>
                 <br>
                 <label for="zipCode">What's your zip code?</label>
@@ -88,12 +80,7 @@
                 <button type="submit" class="btn-large waves-effect waves-light red accent-2" id="submitButton">Search</button>
               </div>
                 <br>
-            <!-- </div> -->
             </form>
-            <!-- <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components.
-              Additionally, we refined animations and transitions to provide a smoother experience for developers.</p> -->
           </div>
         </div>
 
@@ -111,8 +98,8 @@
         </div>
       </div>
     </div>
-    <div class="parallax">
-      <img src="./images/background1.jpg" alt="Unsplashed background img 2">
+    <div class="parallax opacity">
+      <img src="./images/background1.jpg" alt="Dinner and a Movie">
     </div>
   </div>
 
@@ -125,7 +112,7 @@
             <i class="mdi-content-send brown-text"></i>
           </h3>
           <div id="headerDIV"></div>
-          <div id="movieTitles"></div>
+          <div id="movieTitles">
           <h4 class="white-text">How does it work?</h4>
           <p class="left-align light white-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque
             tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a
@@ -133,12 +120,12 @@
             eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum
             sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum
             primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
-
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
@@ -148,36 +135,20 @@
         </div>
       </div>
     </div>
-    <div class="parallax">
-      <img src="./images/background2.jpg" alt="Unsplashed background img 3">
+    <div class="parallax opacity">
+      <img src="./images/background2.jpg" alt="Dinner and a Movie">
     </div>
   </div>
 
-  <footer class="page-footer red accent-2">
+  <footer class="page-footer brown">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
           <h5 class="white-text">Dinner and a Movie</h5>
           <p class="grey-text text-lighten-4">We are a team of bootcamp students working on this project like it's our full time job. </p>
-
-
         </div>
         <div class="col l3 s12">
-          <!-- <h5 class="white-text">Settings</h5>
-          <ul>
-            <li>
-              <a class="white-text" href="#!">Link 1</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 2</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 3</a>
-            </li>
-            <li>
-              <a class="white-text" href="#!">Link 4</a>
-            </li>
-          </ul> -->
+
         </div>
         <div class="col l3 s12">
           <h5 class="white-text">Meet the Team</h5>
@@ -200,8 +171,8 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-        Made by
-        <a class="brown-text text-lighten-3" href="https://github.com/TonyPuricelli/Dinner-And-A-Movie-TheSQL">Team Name</a>
+        Developed by
+        <a class="brown-text text-lighten-3" href="https://github.com/TonyPuricelli/Dinner-And-A-Movie-TheSQL">Dinner And A Movie - TheSQL</a>
       </div>
     </div>
   </footer>
