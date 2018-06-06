@@ -43,6 +43,20 @@ module.exports = function (app) {
     let apiKey = process.env.GRACENOTE_API;
     let queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
     console.log("HERE IS THE QUERY URL: ", queryURL);
+
+    //Calling the Gracenote API to retrieve the movie data
+    let request = require('request');
+      request(queryURL, function (error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        //console.log('body:', body); // Print the HTML for the Google homepage
+        //var stringify = JSON.stringify(body);
+        //var bodyParse = JSON.parse(body);
+        //console.log(bodyParse)
+        //console.log(bodyParse[0]);
+        // console.log(JSON.stringify(body))
+        res.json(body);
+    });
   });
 
 
