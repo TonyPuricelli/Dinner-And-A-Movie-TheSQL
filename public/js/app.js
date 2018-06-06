@@ -1,6 +1,6 @@
 // ***************************
 // GLOBAL VARIABLE DECLARATION
-var movieData;
+//var movieData;
 // ***************************
 
 // ****** LOCAL STORAGE ******** 
@@ -74,13 +74,6 @@ function submitUserInfo() {
             $("#movieDate").val("");
             $("#zipCode").val("");
 
-            // Create variables to hold the information needed to submit the API call
-            var apiKey = 'bdz8ugfm9xze9x33zqwf3zxt';
-            var movieDate = userDate;
-            var zipCode = userZipCode;
-            var queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
-            console.log(queryURL);
-
             var newUser = {
                 moviedinner_date: userDate,
                 zipcode: userZipCode
@@ -89,6 +82,7 @@ function submitUserInfo() {
             console.log("Here is the new user data: ", newUser);
 
             //Make an AJAX call to our users database to post the movieDate and zipCode
+            console.log(newUser);
             $.ajax("/api/users", {
                 type: "POST",
                 data: newUser
@@ -101,32 +95,16 @@ function submitUserInfo() {
                 type: "GET",
                 data: newUser
             }).then(function (response){
-                console.log("New user added.");
+                console.log("Gracenote returning movie data.");
                 console.log(response);
-            });
-
-            $.ajax("/api/dinner", {
-                type: "GET",
-                data: newUser
-            }).then(function (response){
-                console.log("YELP Returned Restaurant Data.");
-                console.log(response);
-
-            });
-
-            // Make an AJAX call to the movie API to get data back
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
-
+                
                 var headerDIVTitle = $("<h3>").text("Movies Playing Near You").addClass("text-center");
 
                 $("#headerDIV").prepend(headerDIVTitle);
 
                 // Store the JSON response in a variable
-                movieData = response;
-                console.dir(movieData);
+                var movieData = JSON.parse(response);
+                //console.dir(movieData);
 
                 // Looping over the results in the JSON object...
                 for (var i = 0; i < movieData.length; i++) {
@@ -166,7 +144,88 @@ function submitUserInfo() {
 
                     // Add all the movies to an existing DIV on the apge called movieTitles
                     $("#movieTitles").append(movieDisplayDiv);
+
+                    $(document).on("click touchstart", "h5", function () {
+                        // Using 'this', create a variable that grabs the movie ID in the id attribute for the specific movie title that the user has clicked on.
+                        var movieID = $(this).attr("id");
+                        console.log(movieID);
+                    
+                        // Create a variable that returns the index number of the movie that matches that movie ID that was clicked. We can use this index number to plug into the for loop to only loop through that movie's showtimes.
+                        var selectedMovie = movieData.findIndex(function (movie) {
+                            return movie.tmsId === movieID;
+                        });
+                        console.log("This is the selected movie's index: " + selectedMovie);
+                    
+                        // Create an empty array that will hold a list of generated objects containing each movie theatre and showtime.
+                        var movieTheatres = [];
+                        var theatreNames = [];
+                    
+                        // Loop through all the movie showtimes of the array that we have selected to get the theatres names by using the index number generated above
+                        for (var i = 0; i < movieData[selectedMovie].showtimes.length; i++) {
+                            // Create a variable to hold each of the theatre names for each showtime in the array
+                            var theatreName = movieData[selectedMovie].showtimes[i].theatre.name;
+                            //console.log("Here's the theatre name: " + theatreName);
+                    
+                            // Create an if statement using the indexOf method that will create a new array to hold all the theatre names. A theatre name will only be pushed to the array if that theatre name is not present ( == -1).
+                            if (theatreNames.indexOf(theatreName) < 0) {
+                                theatreNames.push(theatreName);
+                            }
+                        }
+                    
+                        console.log("All movie theatres  for this particular movie: ", theatreNames);
+                    
+                        // Loop through the theatreName array to get all showtimes and put them in a new object with each theatre
+                        for (var i = 0; i < theatreNames.length; i++) {
+                            // Create a new variable that will use the filter function to create a new array to hold all of the movie showtimes by theatre
+                            var showtimes = movieData[selectedMovie].showtimes.filter(function (showtime) {
+                                //console.log("DATA", showtime);
+                                return showtime.theatre.name == theatreNames[i];
+                            });
+                            // Push an object containing 2 properties: name (containing the name) and times (blank array that will hold the showtimes that will be generated by the next for loop)
+                            movieTheatres.push({ name: theatreNames[i], times: [] });
+                            //console.log("Showtime: ", showtimes);
+                            // Loop through the showtimes array and push all the showtimes into the empty 'times' property in the object in the movieTheatre array
+                            for (j = 0; j < showtimes.length; j++) {
+                                //console.log("Showtimes: " , showtimes[j]);
+                                movieTheatres[i].times.push(showtimes[j].dateTime);
+                            }
+                        }
+                        console.log(movieTheatres)
+                    
+                        //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
+                        for (let i = 0; i < movieTheatres.length; i++) {
+                            var showtimesDIV = $("<div>").addClass("showtimesDIV");
+                            //console.log("DIV " + showtimesDIV);
+                    
+                            var theatre = movieTheatres[i].name;
+                            console.log("Theatre " + theatre);
+                    
+                            var movieTimes = movieTheatres[i].times.map(function (element) {
+                                return moment(element).format('h:mm A');
+                            });
+                            console.log("Movie times" + movieTimes);
+                    
+                            showtimesDIV.append("<strong>" + theatre + "</strong>" + "<br>" + movieTimes.join(", ") + "<hr>");
+                    
+                            $(this).parent().append(showtimesDIV);
+                        }
+                    
+                        var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Want to go to Dinner?</a>');
+                    
+                        $(this).parent().append(restaurantPage);
+                    
+                    });
+
                 }
+            });
+
+            $.ajax("/api/dinner", {
+                type: "GET",
+                data: newUser
+            }).then(function (response){
+                console.log("YELP returning restaurant data.");
+                console.log(response);
+
             });
         }
     });
@@ -175,74 +234,3 @@ function submitUserInfo() {
 // Call the function
 submitUserInfo();
 
-//To display the movie showtimes after a user clicks on the movie title
-$(document).on("click touchstart", "h5", function () {
-    // Using 'this', create a variable that grabs the movie ID in the id attribute for the specific movie title that the user has clicked on.
-    var movieID = $(this).attr("id");
-    console.log(movieID);
-
-    // Create a variable that returns the index number of the movie that matches that movie ID that was clicked. We can use this index number to plug into the for loop to only loop through that movie's showtimes.
-    var selectedMovie = movieData.findIndex(function (movie) {
-        return movie.tmsId === movieID;
-    });
-    console.log("This is the selected movie's index: " + selectedMovie);
-
-    // Create an empty array that will hold a list of generated objects containing each movie theatre and showtime.
-    var movieTheatres = [];
-    var theatreNames = [];
-
-    // Loop through all the movie showtimes of the array that we have selected to get the theatres names by using the index number generated above
-    for (var i = 0; i < movieData[selectedMovie].showtimes.length; i++) {
-        // Create a variable to hold each of the theatre names for each showtime in the array
-        var theatreName = movieData[selectedMovie].showtimes[i].theatre.name;
-        //console.log("Here's the theatre name: " + theatreName);
-
-        // Create an if statement using the indexOf method that will create a new array to hold all the theatre names. A theatre name will only be pushed to the array if that theatre name is not present ( == -1).
-        if (theatreNames.indexOf(theatreName) < 0) {
-            theatreNames.push(theatreName);
-        }
-    }
-
-    console.log("All movie theatres  for this particular movie: ", theatreNames);
-
-    // Loop through the theatreName array to get all showtimes and put them in a new object with each theatre
-    for (var i = 0; i < theatreNames.length; i++) {
-        // Create a new variable that will use the filter function to create a new array to hold all of the movie showtimes by theatre
-        var showtimes = movieData[selectedMovie].showtimes.filter(function (showtime) {
-            //console.log("DATA", showtime);
-            return showtime.theatre.name == theatreNames[i];
-        });
-        // Push an object containing 2 properties: name (containing the name) and times (blank array that will hold the showtimes that will be generated by the next for loop)
-        movieTheatres.push({ name: theatreNames[i], times: [] });
-        //console.log("Showtime: ", showtimes);
-        // Loop through the showtimes array and push all the showtimes into the empty 'times' property in the object in the movieTheatre array
-        for (j = 0; j < showtimes.length; j++) {
-            //console.log("Showtimes: " , showtimes[j]);
-            movieTheatres[i].times.push(showtimes[j].dateTime);
-        }
-    }
-    console.log(movieTheatres)
-
-    //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
-    for (let i = 0; i < movieTheatres.length; i++) {
-        var showtimesDIV = $("<div>").addClass("showtimesDIV");
-        //console.log("DIV " + showtimesDIV);
-
-        var theatre = movieTheatres[i].name;
-        console.log("Theatre " + theatre);
-
-        var movieTimes = movieTheatres[i].times.map(function (element) {
-            return moment(element).format('h:mm A');
-        });
-        console.log("Movie times" + movieTimes);
-
-        showtimesDIV.append("<strong>" + theatre + "</strong>" + "<br>" + movieTimes.join(", ") + "<hr>");
-
-        $(this).parent().append(showtimesDIV);
-    }
-
-    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Want to go to Dinner?</a>');
-
-    $(this).parent().append(restaurantPage);
-
-});
