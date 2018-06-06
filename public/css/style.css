@@ -142,3 +142,17 @@ a:link {
 .opacity {
     opacity: 0.3;
 }
+
+a {
+    color: #fff;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+h3 {
+    color: #f25555;
+}
+
+.sidenav-trigger {
+    color: #fff;
+}
