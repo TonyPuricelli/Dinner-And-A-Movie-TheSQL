@@ -18,6 +18,7 @@ module.exports = function (app) {
     console.log("API call to get All user data");
     db.User.findAll({})
       .then(function (dbUser) {
+        console.log(dbUser);
         res.json(dbUser);
       });
   });
@@ -64,8 +65,8 @@ module.exports = function (app) {
   app.get("/api/dinner", function (req, res) {
     console.log("ZIP CODE: ",req.query.zipcode);
 
-    let zipCode = req.query.zipcode;
-
+    // let zipCode = req.query.zipcode;
+    let zipCode = 60616;
     const yelpApiKey = process.env.YELP_API_KEY;
 
     //Specific information we want to get out of the searchRequest results
