@@ -81,7 +81,7 @@ module.exports = function (app) {
       // location: req.body.zipcode,
       radius: 1610, //a mile in meters; can search up to 25 miles
       //sort_by: distance, //by default its best_match
-      limit: 3 //limit number of search results
+      limit: 10 //limit number of search results
     };
 
     console.log("Here's the search request: ", searchRequest)

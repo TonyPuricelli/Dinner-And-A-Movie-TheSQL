@@ -14,27 +14,28 @@ function yelpCall() {
 
     $.ajax("/api/dinner", {
         type: "GET",
-        data: newUser
+        // data: newUser
     }).then(function (response) {
         console.log("YELP Returned Restaurant Data.");
         console.log(response);
-        var restresults = response;
-        console.log("Array Length: " + response.results.length);
+        var results = response;
+        console.log("Array Length: " + results.length);
 
         // $("#movie-view").html(JSON.stringify(response,"",4));
         $("#restaurant-appear-here").html(JSON.stringify(response, "", 4));
 
-        for (var i = 0; i < response.results.length; i++) {
+        for (var i = 0; i < results.length; i++) {
             console.log("GOING FOR IT");
             // Create a DIV to hold each of our restaurants and its description
-            var restDisplayDiv = $("<div>").addClass("restDIV").addClass("card").attr("style", "width: 18rem");
+            var restDisplayDiv = $("<div>").addClass("restDIV").addClass("card").attr("style", "width: 50%");
 
             // Create a variable to hold each restaurant name 
-            var restName = response.results[i].name;
+            var restName = results[i].name;
             console.log("Restaurant Name: " + restName);
 
-            var googleMapsUrl = response.results[i].photos[0].html_attributions;
-            console.log("Google Maps URL: " + googleMapsUrl);
+            var imageUrl = results[i].image_url;
+            console.log("Image URL: " + imageUrl);
+            var cardIMG = $("<img>").addClass("card-img-top").attr("src", imageUrl).attr("style", "width:200px;height:180px;");
 
 
             // Create an inner DIV for each Restaurant title and description to utilize the card component from Bootstrap
@@ -45,16 +46,16 @@ function yelpCall() {
 
             // Create a variable to hold each Restaurant description
 
-            var restOpen = response.results[i].opening_hours.open_now;
-            console.log("Open: " + restOpen);
-            var priceLevel = response.results[i].price_level;
+            var isClosed = results[i].is_closed;
+            console.log("Open: " + isClosed);
+            var priceLevel = results[i].price;
             console.log("Price Level: " + priceLevel);
-            var rating = response.results[i].rating;
+            var rating = results[i].rating;
             console.log("Rating: " + rating);
 
 
             // Display the Restaurant description in each individual DIV
-            if (restOpen) {
+            if (!isClosed) {
                 var openDisplay = $("<h6>").text("Open").addClass("openDisplay").addClass("card-title");
             }
             else { var openDisplay = $("<h6>").text("Closed").addClass("openDisplay").addClass("card-title"); }
@@ -62,9 +63,10 @@ function yelpCall() {
             var ratingDisplay = $("<h6>").text("Google Rating: " + rating).addClass("ratingDisplay").addClass("card-title");
 
             // Add the restaurant name and other info to the individual DIV
-            innerRestDiv.append(nameDisplay, openDisplay, priceDisplay, ratingDisplay)
+            innerRestDiv.append(nameDisplay, openDisplay, priceDisplay, ratingDisplay);
 
             restDisplayDiv.append(innerRestDiv);
+            restDisplayDiv.append(cardIMG);
 
             // Add all the restaurants to an existing DIV on the apge called nearbyRestaurants
             // $("#restaurant-appear-here").prepend(restDisplayDiv);
