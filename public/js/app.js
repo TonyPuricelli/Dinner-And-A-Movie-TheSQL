@@ -96,6 +96,14 @@ function submitUserInfo() {
                 console.log("New user added.");
             });
 
+            $.ajax("/api/users", {
+                type: "GET",
+                // data: newUser
+            }).then(function (){
+                console.log("User Data.");
+                console.log(response);
+            });
+
             //Need to figure out how to port over the Gracenote API call to Node in the API route and hide the API key
             $.ajax("/api/movie", {
                 type: "GET",
@@ -241,7 +249,7 @@ $(document).on("click touchstart", "h5", function () {
         $(this).parent().append(showtimesDIV);
     }
 
-    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Want to go to Dinner?</a>');
+    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="/public/index_restaurant.html">Want to go to Dinner?</a>');
 
     $(this).parent().append(restaurantPage);
 
