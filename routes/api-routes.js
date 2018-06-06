@@ -4,9 +4,8 @@
 // Requiring our models
 var db = require("../models");
 
-// YELP Node Stuff
-
 const yelp = require('yelp-fusion');
+const request = require('request');
 
 // ============================
 // Routes
@@ -15,10 +14,10 @@ module.exports = function (app) {
 
   // GET route for getting all of the user data
   app.get("/api/users", function (req, res) {
-    console.log("API call to get All user data");
+    //console.log("API call to get All user data");
     db.User.findAll({})
       .then(function (dbUser) {
-        console.log(dbUser);
+        //console.log(dbUser);
         res.json(dbUser);
       });
   });
@@ -35,38 +34,48 @@ module.exports = function (app) {
       });
   });
 
+  //Route to call the Gracenote API to retrieve the movie data
   app.get("/api/movie", function (req, res) {
     let zipCode = req.query.zipcode;
     console.log("ZIP CODE FROM MOVIE ROUTE: ", req.query.zipcode)
     let movieDate = req.query.moviedinner_date;
     console.log("DATE FROM MOVIE ROUTE: ", req.query.moviedinner_date);
-    let apiKey = process.env.GRACENOTE_API;
-    let queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
-    console.log("HERE IS THE QUERY URL: ", queryURL);
+    let graceNoteAPI = process.env.GRACENOTE_API;
+    let graceNotequery = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + graceNoteAPI;
+    console.log("HERE IS THE QUERY URL: ", graceNotequery);
 
-    //Calling the Gracenote API to retrieve the movie data
-    let request = require('request');
-      request(queryURL, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        //console.log('body:', body); // Print the HTML for the Google homepage
-        //var stringify = JSON.stringify(body);
-        //var bodyParse = JSON.parse(body);
-        //console.log(bodyParse)
-        //console.log(bodyParse[0]);
-        // console.log(JSON.stringify(body))
-        res.json(body);
+    request(graceNotequery, function (error, response, body) {
+      console.log('error:', error); // Print the error if one occurred
+      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      res.json(body);
     });
   });
 
+  //Route to call the OMDB API to retrieve poster information
 
+  // app.get("/api/poster", function (req, res) {
+  //   let movie = req.query.movie;
+  //   console.log("MOVIE TITLE: ", movie)
+  //   let omdbAPI = process.env.OMDB_API_KEY;
+  //   let omdbquery = "http://www.omdbapi.com/?apikey=" + omdbAPI + "&t=" + movie;
+  //   console.log("HERE IS THE QUERY URL: ", omdbquery);
+
+  //   request(omdbquery, function (error, response, body) {
+  //     console.log('error:', error); // Print the error if one occurred
+  //     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  //     console.log(body);
+  //     //console.log(JSON.parse(body.Poster));
+  //     res.json(body);
+  //   });
+  // });
+  
   //Route to call the Yelp API to retrieve dinner information
 
   app.get("/api/dinner", function (req, res) {
-    console.log("ZIP CODE: ",req.query.zipcode);
+    console.log("ZIP CODE: ", req.query.zipcode);
 
-    // let zipCode = req.query.zipcode;
-    let zipCode = 60616;
+    let zipCode = req.query.zipcode;
+    //let zipCode = 60616;
     const yelpApiKey = process.env.YELP_API_KEY;
 
     //Specific information we want to get out of the searchRequest results
@@ -76,7 +85,7 @@ module.exports = function (app) {
     // API Search Parameters Documentation: https:/ / www.yelp.com / developers / documentation / v3 / business_search
     const searchRequest = {
       term: 'restaurants', //always include this to focus only on restaurants
-      categories: 'italian', //take in user inputs about the types of cuisines they want based on this list of categories: https://www.yelp.com/developers/documentation/v3/category_list?hl=en_US 
+      //categories: 'italian', //take in user inputs about the types of cuisines they want based on this list of categories: https://www.yelp.com/developers/documentation/v3/category_list?hl=en_US 
       location: zipCode, //can be address, neighborhood, city, state or zip
       // location: req.body.zipcode,
       radius: 1610, //a mile in meters; can search up to 25 miles

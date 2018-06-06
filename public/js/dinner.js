@@ -7,14 +7,17 @@ console.log("****** GOTO DINNER Button Clicked ******");
 var zipCode = localStorage.getItem("zipcode")
 console.log("*** Zip Code for Restaurant Search: " + zipCode);
 
-yelpCall();
-
 function yelpCall() {
+    var restSearch = {
+        zipcode: zipCode
+    }
+    console.log("here's the zip code from local storage stored in an object: ", restSearch)
+
     //Route to call the Yelp API to retrieve dinner information
 
     $.ajax("/api/dinner", {
         type: "GET",
-        // data: newUser
+        data: restSearch
     }).then(function (response) {
         console.log("YELP Returned Restaurant Data.");
         console.log(response);
@@ -75,6 +78,7 @@ function yelpCall() {
     });
 }
 
+yelpCall();
 
 
 

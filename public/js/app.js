@@ -1,8 +1,3 @@
-// ***************************
-// GLOBAL VARIABLE DECLARATION
-//var movieData;
-// ***************************
-
 // ****** LOCAL STORAGE ******** 
 function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
     // Clear absolutely everything stored in localStorage using localStorage.clear()
@@ -82,7 +77,6 @@ function submitUserInfo() {
             console.log("Here is the new user data: ", newUser);
 
             //Make an AJAX call to our users database to post the movieDate and zipCode
-            console.log(newUser);
             $.ajax("/api/users", {
                 type: "POST",
                 data: newUser
@@ -93,18 +87,16 @@ function submitUserInfo() {
             $.ajax("/api/users", {
                 type: "GET",
                 // data: newUser
-            }).then(function (){
-                console.log("User Data.");
-                console.log(response);
+            }).then(function (response){
+                //console.log("User Data.");
+                //console.log(response);
             });
 
-            //Need to figure out how to port over the Gracenote API call to Node in the API route and hide the API key
             $.ajax("/api/movie", {
                 type: "GET",
                 data: newUser
             }).then(function (response){
                 console.log("Gracenote returning movie data.");
-                console.log(response);
                 
                 var headerDIVTitle = $("<h3>").text("Movies Playing Near You").addClass("text-center");
 
@@ -112,7 +104,7 @@ function submitUserInfo() {
 
                 // Store the JSON response in a variable
                 var movieData = JSON.parse(response);
-                //console.dir(movieData);
+                console.log("Here's the movie JSON: ", movieData);
 
                 // Looping over the results in the JSON object...
                 for (var i = 0; i < movieData.length; i++) {
@@ -120,9 +112,11 @@ function submitUserInfo() {
                     // Create a DIV to hold each of our movie titles and its description
                     var movieDisplayDiv = $("<div>").addClass("movieDIV").addClass("card").attr("style", "width: 16rem");
 
-                    var cardIMG = $("<img>").addClass("card-img-top").attr("src", "../public/images/popcorn.jpg");
+                    // var cardIMGDiv = $("<div>").addClass("card-image-top");
 
-                    // Create a variable to hold each movie title
+                    // var cardIMG = $("<img>").attr("src", "./images/popcorn.jpg").attr("width",100);
+
+                    // Create a variable to hold each movie title and the unique movie ID
                     var movieTitle = [];
                     movieTitle = movieData[i].title;
                     console.log(movieTitle);
@@ -131,20 +125,49 @@ function submitUserInfo() {
                     movieID = movieData[i].tmsId;
                     console.log(movieID);
 
+                    // Create a variable to hold the transformed movie title so that we can call the OMDB API to get the movie poster
+                    var omdbTitle = movieTitle.replace(/ /g,"+");
+                    console.log(omdbTitle);
+
+                    var omdb = {
+                        movie: omdbTitle
+                    }
+                    console.log("Here's the movie data to pass to the OMDB API: ", omdb);
+
+                    // $.ajax("api/poster", {
+                    //     type: "GET",
+                    //     data: omdb,
+                    //     async: false
+                    // }).then(function(response) {
+                    //     console.log("OMDB returning movie data.");
+                    //     var omdbMovies = JSON.parse(response);
+                    //     console.log("Here's the response from OMDB API: ", omdbMovies);
+                    //     var moviePoster = omdbMovies.Poster
+                    //     console.log("Here's the movie poster link from OMDB API: ", moviePoster);
+                    //     var cardIMGDiv = $("<div>").addClass("card-image-top");
+
+                    //     var cardIMG = $("<img>").attr("src", moviePoster).attr("width",100);
+
+                    //     var moviePosterCard = cardIMGDiv.append(cardIMG);
+                    //     console.log("HERE IS THE POSTER DIV: ", moviePosterCard);
+                    // });
+
                     // Create an inner DIV for each movie title and description to utilize the card component from Bootstrap
-                    var innerMovieDiv = $("<div>").addClass("card-body");
+                    var innerMovieDiv = $("<div>").addClass("card-content");
 
                     // Display the movie title in each individual DIV
-                    var titleDisplay = $("<h5>").text(movieTitle).addClass("card-title movieTitle").attr("id", movieID);
+                    var titleDisplay = $("<a>").text(movieTitle).addClass("card-title movieitle").attr("data-movieid", movieID).attr("data-movietitle", movieTitle).attr("data-omdbtitle", omdbTitle);
 
                     // Create a variable to hold each movie description
                     var movieDescr = movieData[i].shortDescription;
 
                     // Display the movie description in each individual DIV
-                    var descrDisplay = $("<h6>").text(movieDescr).addClass("movieDescr").addClass("card-title");
+                    var descrDisplay = $("<p>").text(movieDescr).addClass("movieDescr").addClass("card-title");
 
                     // Add the movie title and the description to the individual DIV
-                    movieDisplayDiv.append(cardIMG);
+                    cardIMGDiv.append(cardIMG);
+                    
+                    movieDisplayDiv.append(cardIMGDiv);
                     
                     innerMovieDiv.append(titleDisplay, descrDisplay)
 
@@ -153,10 +176,13 @@ function submitUserInfo() {
                     // Add all the movies to an existing DIV on the apge called movieTitles
                     $("#movieTitles").append(movieDisplayDiv);
 
-                    $(document).on("click touchstart", "h5", function () {
+                    $(document).on("click", "a", function () {
                         // Using 'this', create a variable that grabs the movie ID in the id attribute for the specific movie title that the user has clicked on.
-                        var movieID = $(this).attr("id");
-                        console.log(movieID);
+                        var movieID = $(this).data("movieid");
+                        console.log("Here's the movie ID: ", movieID);
+
+                        var movieTitle = $(this).data("movietitle");
+                        console.log("Here's the movie title: ", movieTitle);
                     
                         // Create a variable that returns the index number of the movie that matches that movie ID that was clicked. We can use this index number to plug into the for loop to only loop through that movie's showtimes.
                         var selectedMovie = movieData.findIndex(function (movie) {
@@ -202,18 +228,19 @@ function submitUserInfo() {
                     
                         //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
                         for (let i = 0; i < movieTheatres.length; i++) {
+
                             var showtimesDIV = $("<div>").addClass("showtimesDIV");
                             //console.log("DIV " + showtimesDIV);
                     
                             var theatre = movieTheatres[i].name;
-                            console.log("Theatre " + theatre);
+                            console.log("Theatre: " + theatre);
                     
                             var movieTimes = movieTheatres[i].times.map(function (element) {
                                 return moment(element).format('h:mm A');
                             });
-                            console.log("Movie times" + movieTimes);
+                            console.log("Movie times: " + movieTimes);
                     
-                            showtimesDIV.append("<strong>" + theatre + "</strong>" + "<br>" + movieTimes.join(", ") + "<hr>");
+                            showtimesDIV.append("<p><strong>" + theatre + "</p></strong>" + "<br>" + movieTimes.join(", ") + "<hr>");
                     
                             $(this).parent().append(showtimesDIV);
                         }
@@ -225,15 +252,6 @@ function submitUserInfo() {
                     });
 
                 }
-            });
-
-            $.ajax("/api/dinner", {
-                type: "GET",
-                data: newUser
-            }).then(function (response){
-                console.log("YELP returning restaurant data.");
-                console.log(response);
-
             });
         }
     });
