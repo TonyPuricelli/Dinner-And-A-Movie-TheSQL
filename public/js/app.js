@@ -75,7 +75,7 @@ function submitUserInfo() {
             $("#zipCode").val("");
 
             // Create variables to hold the information needed to submit the API call
-            var apiKey = 'bdz8ugfm9xze9x33zqwf3zxt';
+            var apiKey = 'vzsjymvnb29myaj7ex6vk6zt';
             var movieDate = userDate;
             var zipCode = userZipCode;
             var queryURL = "https://data.tmsapi.com/v1.1/movies/showings?startDate=" + movieDate + "&zip=" + zipCode + "&imageSize=Sm&imageText=true&api_key=" + apiKey;
@@ -249,7 +249,7 @@ $(document).on("click touchstart", "h5", function () {
         $(this).parent().append(showtimesDIV);
     }
 
-    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="/public/index_restaurant.html">Want to go to Dinner?</a>');
+    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="/dinner">Want to go to Dinner?</a>');
 
     $(this).parent().append(restaurantPage);
 
