@@ -80,7 +80,7 @@ function yelpCall() {
             // console.log("Price Level: " + priceLevel);
             var rating = results[i].rating;
             // console.log("Rating: " + rating);
-            var category = results[i].categories[0].alias;
+            var category = results[i].categories[0].title;
             console.log("Category: ", category);
 
             var cardContent = $("<div>").addClass("card-stacked");
@@ -104,8 +104,7 @@ function yelpCall() {
 
             // grab restaurant name for id
 
-            var linkToNext = $("<a>").text("Eat here");
-            // .attr("src", "#"); // will link to final page and store restaurant to database
+            var linkToNext = $("<a>").text("Eat here").attr("src", "/public/summary.html").attr("target", "_blank"); // will link to final page and store restaurant to database
             var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("address", results[i].location.address1).attr("category",category);
 
             // restDisplayDiv.append(innerRestDiv);

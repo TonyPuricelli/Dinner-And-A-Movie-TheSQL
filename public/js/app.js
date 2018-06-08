@@ -83,20 +83,20 @@ function submitUserInfo() {
             console.log("Here is the new user data: ", newUser);
 
             //Make an AJAX call to our users database to post the movieDate and zipCode
-            $.ajax("/api/users", {
-                type: "POST",
-                data: newUser
-            }).then(function (){
-                console.log("New user added.");
-            });
+            // $.ajax("/api/users", {
+            //     type: "POST",
+            //     data: newUser
+            // }).then(function (){
+            //     console.log("New user added.");
+            // });
 
-            $.ajax("/api/users", {
-                type: "GET",
-                // data: newUser
-            }).then(function (response){
-                //console.log("User Data.");
-                //console.log(response);
-            });
+            // $.ajax("/api/users", {
+            //     type: "GET",
+            //     // data: newUser
+            // }).then(function (response){
+            //     //console.log("User Data.");
+            //     //console.log(response);
+            // });
 
             $.ajax("/api/movie", {
                 type: "GET",
@@ -235,7 +235,6 @@ function submitUserInfo() {
                 
                     //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
                     for (let i = 0; i < movieTheatres.length; i++) {
-                
                         var theatre = movieTheatres[i].name;
                         console.log("Theatre: " + theatre);
                 
@@ -258,6 +257,8 @@ function submitUserInfo() {
                     $(document).on("click", ".theatreTitle", function () {
                         var selectedTheatre = $(this).data("theatre");
                         console.log("Here is the selected theatre: ", selectedTheatre);
+
+
 
                         // Calling SaveData() to store info in local storage
                         saveData(userDate, userZipCode, movieTitle, selectedTheatre, movieTime);
