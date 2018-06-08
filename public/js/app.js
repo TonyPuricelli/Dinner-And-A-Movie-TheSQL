@@ -112,9 +112,9 @@ function submitUserInfo() {
                     // Create a DIV to hold each of our movie titles and its description
                     var movieDisplayDiv = $("<div>").addClass("movieDIV").addClass("card").attr("style", "width: 16rem");
 
-                    var cardIMGDiv = $("<div>").addClass("card-image-top");
+                    // var cardIMGDiv = $("<div>").addClass("card-image-top");
 
-                    var cardIMG = $("<img>").attr("src", "./images/popcorn.jpg").attr("width",100);
+                    // var cardIMG = $("<img>").attr("src", "./images/popcorn.jpg").attr("width",100);
 
                     // Create a variable to hold each movie title and the unique movie ID
                     var movieTitle = [];
@@ -156,7 +156,7 @@ function submitUserInfo() {
                     var innerMovieDiv = $("<div>").addClass("card-content");
 
                     // Display the movie title in each individual DIV
-                    var titleDisplay = $("<a>").text(movieTitle).addClass("card-title movieitle").attr("data-movieid", movieID).attr("data-movietitle", movieTitle).attr("data-omdbtitle", omdbTitle);
+                    var titleDisplay = $("<a>").text(movieTitle).addClass("card-title movieTitle").attr("data-movieid", movieID).attr("data-movietitle", movieTitle).attr("data-omdbtitle", omdbTitle);
 
                     // Create a variable to hold each movie description
                     var movieDescr = movieData[i].shortDescription;
@@ -165,9 +165,9 @@ function submitUserInfo() {
                     var descrDisplay = $("<p>").text(movieDescr).addClass("movieDescr").addClass("card-title");
 
                     // Add the movie title and the description to the individual DIV
-                    cardIMGDiv.append(cardIMG);
+                    // cardIMGDiv.append(cardIMG);
                     
-                    movieDisplayDiv.append(cardIMGDiv);
+                    // movieDisplayDiv.append(cardIMGDiv);
                     
                     innerMovieDiv.append(titleDisplay, descrDisplay)
 
@@ -229,9 +229,6 @@ function submitUserInfo() {
                 
                     //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
                     for (let i = 0; i < movieTheatres.length; i++) {
-
-                        var showtimesDIV = $("<div>").addClass("showtimesDIV");
-                        //console.log("DIV " + showtimesDIV);
                 
                         var theatre = movieTheatres[i].name;
                         console.log("Theatre: " + theatre);
@@ -240,13 +237,16 @@ function submitUserInfo() {
                             return moment(element).format('h:mm A');
                         });
                         console.log("Movie times: " + movieTimes);
+
+                        var showtimesDIV = $("<div>").addClass("showtimesDIV").attr("data-theatre", theatre);
+                        //console.log("DIV " + showtimesDIV);
                 
-                        showtimesDIV.append("<p><strong>" + theatre + "</p></strong>" + "<br>" + movieTimes.join(", ") + "<hr>");
+                        showtimesDIV.append("<p>" + "<strong>" + theatre + "</strong>" + "</p>" + "<span data-theatre=" + '"' + theatre + '">' + movieTimes.join(", ") + ("</span>") + "<hr>");
                 
                         $(this).parent().append(showtimesDIV);
                     }
                 
-                    var restaurantPage = $("<button>").addClass("btn btn-dark hvr-underline-from-center dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Want to go to Dinner?</a>');
+                    var restaurantPage = $("<button>").addClass("waves-effect waves-light btn red accent-2 dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Next</a>');
                 
                     $(this).parent().append(restaurantPage);
                 
