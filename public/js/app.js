@@ -1,3 +1,5 @@
+// var dinner = require("./dinner");
+
 // ****** LOCAL STORAGE ******** 
 function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
     // Clear absolutely everything stored in localStorage using localStorage.clear()
@@ -177,7 +179,7 @@ function submitUserInfo() {
                     $("#movieTitles").append(movieDisplayDiv);
 
                 }
-                $(document).on("click", "a", function () {
+                $(document).on("click", ".movieTitle", function () {
                     // Using 'this', create a variable that grabs the movie ID in the id attribute for the specific movie title that the user has clicked on.
                     var movieID = $(this).data("movieid");
                     console.log("Here's the movie ID: ", movieID);
@@ -225,7 +227,7 @@ function submitUserInfo() {
                             movieTheatres[i].times.push(showtimes[j].dateTime);
                         }
                     }
-                    console.log(movieTheatres)
+                    console.log(movieTheatres);
                 
                     //When the user clicks a movie title, grab all the theatres and the corresponding show times and display that in a new div within the movie title div
                     for (let i = 0; i < movieTheatres.length; i++) {
@@ -238,17 +240,24 @@ function submitUserInfo() {
                         });
                         console.log("Movie times: " + movieTimes);
 
-                        var showtimesDIV = $("<div>").addClass("showtimesDIV").attr("data-theatre", theatre);
+                        // var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("href", "./../index_restaurant.html").attr("data-theatre", theatre);
                         //console.log("DIV " + showtimesDIV);
+
+                        var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("data-theatre", theatre);
+                        console.log("DIV " + showtimesDIV);
                 
-                        showtimesDIV.append("<p>" + "<strong>" + theatre + "</strong>" + "</p>" + "<span data-theatre=" + '"' + theatre + '">' + movieTimes.join(", ") + ("</span>") + "<hr>");
+                        showtimesDIV.append("<strong>" + theatre + "</strong>" + "<br>" + "<span data-theatre=" + '"' + theatre + '">' + movieTimes.join(", ") + ("</span>") + "<hr>");
                 
                         $(this).parent().append(showtimesDIV);
                     }
+
+                    $(document).on("click", ".theatreTitle", function () {
+                        var selectedTheatre = $(this).data("theatre");
+                        console.log("Here is the selected theatre: ", selectedTheatre);
+                    });
                 
-                    var restaurantPage = $("<button>").addClass("waves-effect waves-light btn red accent-2 dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Next</a>');
-                
-                    $(this).parent().append(restaurantPage);
+                    //var restaurantPage = $("<button>").addClass("waves-effect waves-light btn red accent-2 dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Next</a>');
+                    //$(this).parent().append(restaurantPage);
                 
                 });
             });

@@ -78,18 +78,18 @@ h5 {
     font-family: 'Patua One', cursive;
 } */
 
-.card-content a {
+.card-content a.card-title {
     position: relative;
     color: #f25555;
     text-decoration: none;
     cursor: pointer;
   }
   
-.card-content a:hover {
+.card-content a.card-title:hover {
     color: #fff;
   }
 
-.card-content a:before {
+.card-content a.card-title:before {
   content: "";
   position: absolute;
   width: 100%;
@@ -104,7 +104,7 @@ h5 {
   transition: all 0.3s ease-in-out 0s;
 }
 
-.card-content a:hover:before {
+.card-content a.card-title:hover:before {
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
@@ -126,7 +126,7 @@ a {
 
 a:hover {
     text-decoration: none;
-    color: #a1887f
+    color: #ffffff;
 }
 
 a:link {
@@ -249,4 +249,15 @@ hr {
 .card-content {
     margin: 0;
     padding: 10px!important;
+}
+
+a.showtimesDIV {
+    color: #ffffff;
+}
+
+a.showtimesDIV:hover {
+    display: block;
+    background-color: rgb(242, 85, 85, 0.9);
+    color: #ffffff;
+    cursor: pointer;
 }
