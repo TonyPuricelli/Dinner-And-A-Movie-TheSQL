@@ -79,6 +79,8 @@ function yelpCall() {
             // console.log("Price Level: " + priceLevel);
             var rating = results[i].rating;
             // console.log("Rating: " + rating);
+            var category = results[i].categories[0].alias;
+            console.log("Category: ", category);
 
             var cardContent = $("<div>").addClass("card-stacked");
 
@@ -92,7 +94,7 @@ function yelpCall() {
                 openDisplay.text("Closed"); 
             }
 
-            openDisplay.append("<br>Price: " + priceLevel + "<br>Rating: " + rating);
+            openDisplay.append("<br>Price: " + priceLevel + "<br>Rating: " + rating+ "<br>" + category);
             // var priceDisplay = $("<p>").text("Price: " + priceLevel).addClass("priceDisplay").addClass("card-content");
             // var ratingDisplay = $("<p>").text("Rating: " + rating).addClass("ratingDisplay").addClass("card-content");
 
@@ -103,7 +105,7 @@ function yelpCall() {
 
             var linkToNext = $("<a>").text("Eat here");
             // .attr("src", "#"); // will link to final page and store restaurant to database
-            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("address", results[i].location.address1);
+            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("address", results[i].location.address1).attr("category",category);
 
             // restDisplayDiv.append(innerRestDiv);
             cardContent.append(nameDisplay, openDisplay, pickMe);
@@ -132,11 +134,15 @@ function submitUserInfo() {
         console.log(this);
         var restName = $(this).attr("name");
         var restAddress = $(this).attr("address");
+        var category = $(this).attr("category");
         console.log("Restaurant Selected: " + restName + restAddress);
+        console.log("Category: ", category);
 
         // populate user
         newUser.restaurantname = restName;
-        newUser.restaurantcategory= restAddress;
+        // newUser.restaurantcategory= restAddress;
+        newUser.restaurantcategory = category;
+        
 
         console.log("Here is the new user data: " + JSON.stringify(newUser));
 
@@ -145,7 +151,7 @@ function submitUserInfo() {
             type: "POST",
             data: newUser
         }).then(function (){
-            console.log("New user added.");
+            console.log("***** New user information added to the SQL database ******");
         });
     });
  };

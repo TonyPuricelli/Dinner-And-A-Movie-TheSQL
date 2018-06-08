@@ -31,7 +31,7 @@ module.exports = function (app) {
       movietitle: req.body.movieTitle,
       theater: req.body.theater,
       restaurantname: req.body.restaurantname,
-      restaurantcategory: req.body.category
+      restaurantcategory: req.body.restaurantcategory
     })
       .then(function (dbUser) {
         res.json(dbUser);
