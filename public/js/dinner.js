@@ -49,7 +49,7 @@ function yelpCall() {
         for (var i = 0; i < results.length; i++) {
             // console.log("GOING FOR IT");
             // Create a DIV to hold each of our restaurants and its description
-            var restDisplayDiv = $("<div>").addClass("restDIV card horizontal blue-grey darken-1");
+            var restDisplayDiv = $("<div>").addClass("restDIV card horizontal");
             // .attr("style", "width: 50%");
 
             // Create a variable to hold each restaurant name 
@@ -61,6 +61,7 @@ function yelpCall() {
             var cardHeader = $("<div>").addClass("card-image");
             
             var cardIMG = $("<img>").attr("src", imageUrl);
+            // var cardIMG = $('.card-image').css('background-image', 'url(' + imageUrl + ')');
             // .attr("style", "width:200px;height:180px;");
 
             cardHeader.append(cardIMG);
