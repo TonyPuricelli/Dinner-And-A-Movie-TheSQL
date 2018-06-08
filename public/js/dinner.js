@@ -9,10 +9,25 @@ console.log("****** DINNER Button Clicked ******");
 var zipCode = localStorage.getItem("zipcode");
 console.log("*** Zip Code for Restaurant Search: " + zipCode);
 
+var newUser = {
+   moviedinner_date: userDate,
+   zipcode: userZipCode,
+   movieTitle: movieTitle,
+   theater: theaterName,
+   // theatre: “AMC whatever”,
+   restaurantname: restname,
+   // restaurantname: “YUMY YUMY”,
+   restaurantcategory: category
+   // restaurantcategory: “confort drunken food”
+};
+
+newUser.moviedinner_date = localStorage.getItem("date");
+newUser.zipcode = localStorage.getItem("zipcode");
+
 function yelpCall() {
     var restSearch = {
         zipcode: zipCode
-    }
+    };
     // console.log("here's the zip code from local storage stored in an object: ", restSearch)
 
     //Route to call the Yelp API to retrieve dinner information
@@ -84,9 +99,9 @@ function yelpCall() {
 
             // grab restaurant name for id
 
-            var linkToNext = $("<a>").attr("id", results[i].id).text("Eat here");
+            var linkToNext = $("<a>").text("Eat here");
             // .attr("src", "#"); // will link to final page and store restaurant to database
-            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name);
+            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("type", results[i].categories[0].title);
 
             // restDisplayDiv.append(innerRestDiv);
             cardContent.append(nameDisplay, openDisplay, pickMe);
@@ -105,10 +120,24 @@ function submitUserInfo() {
         // event.preventDefault();
         console.log(this);
         var restName = $(this).attr("name");
-        console.log("Restaurant Name Selected: " + restName);
+        var restType = $(this).attr("type");
+        console.log("Restaurant Selected: " + restName + restType);
+
+        // populate user
+        newUser.movieTitle
+
+        console.log("Here is the new user data: " + newUser);
+
+        // Make an AJAX call to our users database to post the movieDate and zipCode
+        $.ajax("/api/users", {
+            type: "POST",
+            data: newUser
+        }).then(function (){
+            console.log("New user added.");
+        });
     });
  };
  
- submitUserInfo();
+submitUserInfo();
 
 yelpCall();
