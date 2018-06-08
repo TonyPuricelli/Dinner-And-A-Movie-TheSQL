@@ -268,3 +268,11 @@ a.showtimesDIV:hover {
     color: #f25555;
     cursor: pointer;
 }
+
+a.modal-trigger {
+    color: #000000;
+}
+
+a:hover.modal-trigger {
+    color: #ffffff;
+}
