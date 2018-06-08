@@ -28,6 +28,10 @@ module.exports = function (app) {
     db.User.create({
       moviedinner_date: req.body.moviedinner_date,
       zipcode: req.body.zipcode,
+      movietitle: req.body.movieTitle,
+      theater: req.body.theater,
+      restaurantname: req.body.restaurantname,
+      restaurantcategory: req.body.category
     })
       .then(function (dbUser) {
         res.json(dbUser);

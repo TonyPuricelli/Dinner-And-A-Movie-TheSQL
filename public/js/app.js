@@ -1,5 +1,3 @@
-// var dinner = require("./dinner");
-
 // ****** LOCAL STORAGE ******** 
 function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
     // Clear absolutely everything stored in localStorage using localStorage.clear()
@@ -7,16 +5,22 @@ function saveData(userDate, userZipCode, movieTitle, theaterName, movieTime) {
 
     // Store the zipcode into localStorage using "localStorage.setItem"
     localStorage.setItem("zipcode", userZipCode);
-    console.log("Local Storage ZipCode: " + localStorage.getItem("zipcode"));
+    // console.log("Local Storage ZipCode: " + localStorage.getItem("zipcode"));
+    localStorage.setItem("date", userDate);
+    localStorage.setItem("title", movieTitle);
+    localStorage.setItem("theater", theaterName);
 
     // Creates local "temporary" object for holding Dinner * Movie data
     var movieDinner = {
         date: userDate,
         zipCode: userZipCode,
         title: movieTitle,
-        theater: theaterName,
-        time: movieTime,
+        theater: theaterName
+        // ,
+        // time: movieTime,
     };
+
+    
 };
 // **** END OF LOCAL STORAGE CODE ***********
 
@@ -64,8 +68,8 @@ function submitUserInfo() {
         console.log("This is the user entered zip: " + userZipCode);
 
         if (inputValidation(userZipCode, userDate)) {
-            // Calling SaveData() to store info in Firebase
-            saveData(userDate, userZipCode, movieTitle, theaterName, movieTime);
+            // Calling SaveData() to store info in local storage
+            // saveData(userDate, userZipCode, movieTitle, theaterName, movieTime);
 
             // Empty the fields when the submit button is clicked
             $("#movieDate").val("");
@@ -240,11 +244,11 @@ function submitUserInfo() {
                         });
                         console.log("Movie times: " + movieTimes);
 
-                        // var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("href", "./../index_restaurant.html").attr("data-theatre", theatre);
+                        var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("href", "./../index_restaurant.html").attr("data-theatre", theatre);
                         //console.log("DIV " + showtimesDIV);
 
-                        var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("data-theatre", theatre);
-                        console.log("DIV " + showtimesDIV);
+                        // var showtimesDIV = $("<a>").addClass("showtimesDIV theatreTitle").attr("data-theatre", theatre);
+                        // console.log("DIV " + showtimesDIV);
                 
                         showtimesDIV.append("<strong>" + theatre + "</strong>" + "<br>" + "<span data-theatre=" + '"' + theatre + '">' + movieTimes.join(", ") + ("</span>") + "<hr>");
                 
@@ -254,6 +258,9 @@ function submitUserInfo() {
                     $(document).on("click", ".theatreTitle", function () {
                         var selectedTheatre = $(this).data("theatre");
                         console.log("Here is the selected theatre: ", selectedTheatre);
+
+                        // Calling SaveData() to store info in local storage
+                        saveData(userDate, userZipCode, movieTitle, selectedTheatre, movieTime);
                     });
                 
                     //var restaurantPage = $("<button>").addClass("waves-effect waves-light btn red accent-2 dinnerButton").attr("type", "button").html('<a href="./index_restaurant.html">Next</a>');

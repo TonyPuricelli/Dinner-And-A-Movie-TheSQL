@@ -9,20 +9,22 @@ console.log("****** DINNER Button Clicked ******");
 var zipCode = localStorage.getItem("zipcode");
 console.log("*** Zip Code for Restaurant Search: " + zipCode);
 
-var newUser = {
-   moviedinner_date: userDate,
-   zipcode: userZipCode,
-   movieTitle: movieTitle,
-   theater: theaterName,
-   // theatre: “AMC whatever”,
-   restaurantname: restname,
-   // restaurantname: “YUMY YUMY”,
-   restaurantcategory: category
-   // restaurantcategory: “confort drunken food”
-};
+// var newUser = {
+//    moviedinner_date: localStorage.getItem(userDate),
+//    zipcode: userZipCode,
+//    movieTitle: movieTitle,
+//    theater: theaterName,
+//    // theatre: “AMC whatever”,
+//    restaurantname: restname,
+//    // restaurantname: “YUMY YUMY”,
+//    restaurantcategory: category
+//    // restaurantcategory: “confort drunken food”
+// };
 
-newUser.moviedinner_date = localStorage.getItem("date");
-newUser.zipcode = localStorage.getItem("zipcode");
+// newUser.moviedinner_date = localStorage.getItem("date");
+// newUser.zipcode = localStorage.getItem("zipcode");
+// newUser.movieTitle = localStorage.getItem("movieTitle");
+// newUser.theater = localStorage.getItem("theaterName");
 
 function yelpCall() {
     var restSearch = {
@@ -101,7 +103,7 @@ function yelpCall() {
 
             var linkToNext = $("<a>").text("Eat here");
             // .attr("src", "#"); // will link to final page and store restaurant to database
-            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("type", results[i].categories[0].title);
+            var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("address", results[i].location.address1);
 
             // restDisplayDiv.append(innerRestDiv);
             cardContent.append(nameDisplay, openDisplay, pickMe);
@@ -115,18 +117,28 @@ function yelpCall() {
     });
 };
 
+var newUser = {
+    moviedinner_date: localStorage.getItem("date"),
+    zipcode: localStorage.getItem("zipcode"),
+    movieTitle: localStorage.getItem("title"),
+    theater: localStorage.getItem("theater"),
+    restaurantname: "",
+    restaurantcategory: ""
+ };
+
 function submitUserInfo() {
     $(document).on("click", ".card-action", function() {
         // event.preventDefault();
         console.log(this);
         var restName = $(this).attr("name");
-        var restType = $(this).attr("type");
-        console.log("Restaurant Selected: " + restName + restType);
+        var restAddress = $(this).attr("address");
+        console.log("Restaurant Selected: " + restName + restAddress);
 
         // populate user
-        newUser.movieTitle
+        newUser.restaurantname = restName;
+        newUser.restaurantcategory= restAddress;
 
-        console.log("Here is the new user data: " + newUser);
+        console.log("Here is the new user data: " + JSON.stringify(newUser));
 
         // Make an AJAX call to our users database to post the movieDate and zipCode
         $.ajax("/api/users", {
@@ -139,5 +151,7 @@ function submitUserInfo() {
  };
  
 submitUserInfo();
+
+// console.log(JSON.stringify(newUser));
 
 yelpCall();
