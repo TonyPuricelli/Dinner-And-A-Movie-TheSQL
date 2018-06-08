@@ -104,7 +104,7 @@ function yelpCall() {
 
             // grab restaurant name for id
 
-            var linkToNext = $("<a>").text("Eat here").attr("src", "/public/summary.html").attr("target", "_blank"); // will link to final page and store restaurant to database
+            var linkToNext = $("<a>").text("Eat here").attr("src", "/public/summary.html")// will link to final page and store restaurant to database
             var pickMe = $("<div>").addClass("card-action").append(linkToNext).attr("name", results[i].name).attr("address", results[i].location.address1).attr("category",category);
 
             // restDisplayDiv.append(innerRestDiv);

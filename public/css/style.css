@@ -261,8 +261,10 @@ a.showtimesDIV:hover {
 }
 .card-action a {
     color: #f25555;
+    cursor: pointer;
 }
 
 .card-action a:link {
     color: #f25555;
+    cursor: pointer;
 }
