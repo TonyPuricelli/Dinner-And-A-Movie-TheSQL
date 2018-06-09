@@ -9,23 +9,6 @@ console.log("****** DINNER Button Clicked ******");
 var zipCode = localStorage.getItem("zipcode");
 console.log("*** Zip Code for Restaurant Search: " + zipCode);
 
-// var newUser = {
-//    moviedinner_date: localStorage.getItem(userDate),
-//    zipcode: userZipCode,
-//    movieTitle: movieTitle,
-//    theater: theaterName,
-//    // theatre: “AMC whatever”,
-//    restaurantname: restname,
-//    // restaurantname: “YUMY YUMY”,
-//    restaurantcategory: category
-//    // restaurantcategory: “confort drunken food”
-// };
-
-// newUser.moviedinner_date = localStorage.getItem("date");
-// newUser.zipcode = localStorage.getItem("zipcode");
-// newUser.movieTitle = localStorage.getItem("movieTitle");
-// newUser.theater = localStorage.getItem("theaterName");
-
 function yelpCall() {
     var restSearch = {
         zipcode: zipCode
@@ -33,7 +16,6 @@ function yelpCall() {
     // console.log("here's the zip code from local storage stored in an object: ", restSearch)
 
     //Route to call the Yelp API to retrieve dinner information
-
     $.ajax("/api/dinner", {
         type: "GET",
         data: restSearch
@@ -67,7 +49,7 @@ function yelpCall() {
             cardHeader.append(cardIMG);
 
             // Display the restaurant name in each individual DIV
-            var nameDisplay = $("<span>").text(restName).addClass("restName card-title");
+            var nameDisplay = $("<a>").text(restName).addClass("restName card-title").attr("href", results[i].url).attr("target", "_blank");
 
             // Create an inner DIV for each Restaurant title and description
             // var innerRestDiv = $("<div>").addClass("card-content").attr("id", restName);
@@ -153,8 +135,41 @@ function submitUserInfo() {
         }).then(function (){
             console.log("***** New user information added to the SQL database ******");
         });
+        getDates();
     });
  };
+
+// Function for retrieving authors and getting them ready to be rendered to the page
+function getDates() {
+    $.get("/api/users", function(data) {
+        // console.log(data);
+    //   var rowsToAdd = [];
+      for (var i = 0; i < data.length; i++) {
+        // rowsToAdd.push(createPlan(data[i]));
+        if (data[i].movietitle) {
+            console.log(data[i]);
+            var plan = $("<div>").addClass("card");
+            var date = $("<p>").text(moment(data[i].moviedinner_date).format('LL')).addClass("card-title");
+            var movie = $("<p>").html('<b>SEEING:</b> "' + data[i].movietitle + '" at ' + data[i].theater).addClass("card-content");
+            var dinner = $("<p>").html("<b>DINNER AT:</b> " + data[i].restaurantname).addClass("card-content");
+
+            plan.append(date, movie, dinner);
+
+            $("#datesDisplay").prepend(plan);
+      };
+    };
+    //   renderPlans(rowsToAdd);
+    //   nameInput.val("");
+    });
+};
+
+// function createPlan() {
+
+// };
+
+// function renderPlans(rows) {
+
+// };
  
 submitUserInfo();
 
