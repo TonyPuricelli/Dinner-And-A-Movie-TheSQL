@@ -1,0 +1,278 @@
+* {
+    box-sizing: border-box;
+    /* font-family: 'Lato', sans-serif; */
+}
+
+body {
+    background: #424242;
+}
+/* body {
+    background: url(../images/dinnermovie.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+} */
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+/* .jumbotron {
+    background: rgba(0,0,0,0.5);
+}
+
+/* Adding media queries to adjust the image so that it doesn't repeat at small screen sizes */
+/* @media screen and (max-width: 992px) {
+    .jumbotron {
+        background-size: 160%;
+    }
+}
+
+@media screen and (max-width: 772px) {
+    .jumbotron {
+        background-size: 230%;
+    }
+}
+
+@media screen and (max-width: 467px) {
+    .jumbotron {
+        background-size: 260%;
+    }
+}
+
+@media screen and (max-width: 418px) {
+    .jumbotron {
+        background-size: 300%;
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .jumbotron {
+        background-size: 320%;
+    }
+} */
+
+/* .col-lg-6 {
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+    background-color: black;
+} */
+
+#movieTitles, #nearbyRestaurants {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 5px;
+}
+
+.movieDIV, .restDIV {
+    display: flex;
+    margin-top: 10px;
+    background-color: rgba(255,255,255,0.1);
+}
+/* 
+h5 {
+    font-family: 'Patua One', cursive;
+} */
+
+.card-content a.card-title {
+    position: relative;
+    color: #f25555;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+.card-content a.card-title:hover {
+    color: #fff;
+  }
+
+.card-content a.card-title:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f25555;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.card-content a.card-title:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+
+/* .movieTitle:hover {
+    color: red;
+    cursor: pointer;
+} */
+
+/* h6 {
+    font-family: 'Lato', sans-serif;
+} */
+ 
+a {
+    text-decoration: none;
+    color: white;
+} 
+
+a:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:link {
+    text-decoration: none;
+    color: white;
+} 
+
+#submitButton {
+    background-color: #f25555;
+}
+
+.black-bg {
+    background: #424242;
+}
+
+.datepicker-day-button:focus {
+    background-color: #f25555;
+  }
+  .datepicker-table td.is-outside-current-month, .datepicker-table td.is-disabled {
+    background-color: #f25555;
+  }
+  .datepicker-table td.is-selected {
+    background-color: #f25555;
+  }
+  .datepicker-date-display{
+    background-color: #f25555; 
+  }
+
+  .datepicker-table td.is-today {
+    background-color: #424242; 
+    color: #fff;
+  }
+
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done {
+  color: #f25555;
+}
+
+.input {
+    color:orange;
+}  
+
+.opacity {
+    opacity: 0.3;
+}
+
+a {
+    color: #f25555;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a.searchButton {
+    color: #ffffff;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+h3 {
+    color: #f25555;
+}
+
+.sidenav-trigger {
+    color: #fff;
+}
+
+p.movieDescr.card-title{
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.showtimesDIV {
+    color: #ffffff;
+}
+
+.showtimesDIV strong {
+    color: #d7ccc8;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.waves-effect a {
+    color: #ffffff;
+}
+
+/* NEW - 6/6 */
+
+.restDIV {
+    flex-wrap: wrap;
+    flex-basis: 45%;
+    text-align: center;
+    color: white;
+    justify-content: space-evenly;
+    margin: 10px 0 10px 10px;
+}
+
+
+.card-title {
+    font-weight:400!important;
+    padding: 5px;
+}
+
+.card-content {
+    margin: 0;
+    padding: 10px!important;
+}
+
+a.showtimesDIV {
+    color: #ffffff;
+}
+
+a.showtimesDIV:hover {
+    display: block;
+    background-color: rgb(242, 85, 85, 0.9);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.card-title {
+    color: #f25555;
+}
+
+.card-action {
+    background-color: #f25555;
+}
+.card-action a {
+    color: #f25555;
+    cursor: pointer;
+}
+
+.card-action a:link {
+    color: #f25555;
+    cursor: pointer;
+}
+
+a.modal-trigger {
+    color: #000000;
+}
+
+a:hover.modal-trigger {
+    color: #ffffff;
+}
