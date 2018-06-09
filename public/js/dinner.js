@@ -135,7 +135,7 @@ function submitUserInfo() {
         }).then(function (){
             console.log("***** New user information added to the SQL database ******");
         });
-        getDates();
+        setTimeout(getDates, 2000);
     });
  };
 
