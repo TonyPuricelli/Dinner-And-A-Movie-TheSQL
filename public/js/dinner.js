@@ -134,8 +134,8 @@ function submitUserInfo() {
             data: newUser
         }).then(function (){
             console.log("***** New user information added to the SQL database ******");
-        });
-        getDates();
+        }).then(function () {
+            getDates()})
     });
  };
 
