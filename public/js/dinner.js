@@ -135,7 +135,7 @@ function submitUserInfo() {
         }).then(function (){
             console.log("***** New user information added to the SQL database ******");
         });
-        setTimeout(getDates, 2000);
+        setTimeout(getDates, 1000);
     });
  };
 
@@ -148,7 +148,7 @@ function getDates() {
         // rowsToAdd.push(createPlan(data[i]));
         if (data[i].movietitle) {
             console.log(data[i]);
-            var plan = $("<div>").addClass("card");
+            var plan = $("<div>").addClass("card planDIV");
             var date = $("<p>").text(moment(data[i].moviedinner_date).format('LL')).addClass("card-title");
             var movie = $("<p>").html('<b>SEEING:</b> "' + data[i].movietitle + '" at ' + data[i].theater).addClass("card-content");
             var dinner = $("<p>").html("<b>DINNER AT:</b> " + data[i].restaurantname).addClass("card-content");
